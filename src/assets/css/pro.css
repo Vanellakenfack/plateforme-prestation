@@ -1,0 +1,41 @@
+/* Override Bootstrap si nécessaire */
+.professional-page {
+    background-color: #f8f9fa !important; 
+  }
+  
+  /* Animation personnalisée */
+  .fade-in {
+    animation: fadeIn 0.5s;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* Animation des indicateurs */
+.indicator-item {
+  height: 6px;
+  transition: all 0.3s ease;
+}
+
+/* Ombre portée améliorée */
+.shadow-lg {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Transition fluide pour les onglets */
+.nav-link {
+  transition: color 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+/* Effet de hover sur les cartes */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.15);
+}
