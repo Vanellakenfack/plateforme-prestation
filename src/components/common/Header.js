@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FiUser, FiMenu, FiX, FiChevronDown, FiSearch } from 'react-icons/fi';
 import { MdOutlineHandyman } from 'react-icons/md';
 import { Link } from 'react-router-dom';
-//import '../../assets/css/header.css'; // Fichier CSS personnalisé
+import '../../assets/css/header.css'; // Fichier CSS personnalisé
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -39,6 +39,9 @@ function Header() {
         {/* Navigation principale */}
         <div className={`collapse navbar-collapse ${isMobileMenuOpen ? 'show' : ''}`}>
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+          <li className="nav-item">
+              <Link to="/" className="nav-link">Accueil</Link>
+            </li>
             <li className="nav-item dropdown">
               <Link 
                 to="/services" 
@@ -55,11 +58,11 @@ function Header() {
             </li>
             
             <li className="nav-item">
-              <Link to="/about" className="nav-link">À propos</Link>
+              <Link to="/clientdashboard" className="nav-link">mon espace</Link>
             </li>
             
             <li className="nav-item">
-              <Link to="/blog" className="nav-link">Conseils</Link>
+              <Link to="/blog" className="nav-link"></Link>
             </li>
           </ul>
 
@@ -82,7 +85,7 @@ function Header() {
               <Link to="/login" className="btn btn-outline-primary d-flex align-items-center">
                 <FiUser className="me-1" /> Connexion
               </Link>
-              <Link to="/pro/register" className="btn btn-primary">
+              <Link to="/login" className="btn btn-primary">
                 Espace pro
               </Link>
             </div>

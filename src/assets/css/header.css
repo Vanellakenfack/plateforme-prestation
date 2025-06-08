@@ -7,7 +7,9 @@
     --light-gray: #f8f9fa;
     --transition: all 0.3s ease;
   }
-  
+  *{
+    font-weight: bold;
+  }
   /* Navbar base styles */
   .navbar {
     transition: var(--transition);
@@ -21,7 +23,7 @@
   
   .navbar-scrolled {
     background-color: var(--white) !important;
-   /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);*/
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 0.5rem 0;
   }
   
@@ -40,7 +42,7 @@
     background: linear-gradient(to right, var(--primary), var(--primary-dark));
     -webkit-background-clip: text;
     background-clip: text;
-    color: white;
+    color: var(--primary-dark);
   }
   
   /* Nav links */

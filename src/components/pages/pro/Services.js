@@ -135,7 +135,7 @@ const Services = () => {
             setShowModal(true);
           }}
         >
-          <FiPlus className="me-2" />
+          <FiPlus className="me-1" />
           Ajouter un service
         </button>
       </div>

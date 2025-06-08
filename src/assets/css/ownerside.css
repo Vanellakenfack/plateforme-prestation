@@ -19,7 +19,8 @@
   }
   
   .main-content {
-    margin-left: 250px;
+    margin-left: 250px; /* Quand le sidebar est ouvert */
+    transition: margin-left 0.3s ease;
     width: calc(100% - 250px);
     transition: all 0.3s ease;
     padding: 20px;
@@ -99,3 +100,16 @@
       width: calc(100% - 250px);
     }
   }
+
+  
+  .sidebar.closed + .main-content {
+    margin-left: 70px; /* Quand le sidebar est réduit */
+  }
+  
+  @media (max-width: 991.98px) {
+    .main-content {
+      margin-left: 0;
+      
+    }
+  }
+  

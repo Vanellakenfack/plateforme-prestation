@@ -17,6 +17,7 @@
 .all-professionals-page {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: var(--dark);
+  margin-top: 10px;
 }
 
 .container {
@@ -27,6 +28,7 @@
 
 /* Hero Section */
 .hero-section {
+  margin-top: 110px;
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: var(--white);
   padding: 4rem 0;
@@ -47,8 +49,8 @@
 }
 
 .hero-content {
-  position: relative;
-  z-index: 2;
+position: relative;
+  left: 450px;
 }
 
 .hero-content h1 {

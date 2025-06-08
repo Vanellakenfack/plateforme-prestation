@@ -130,8 +130,7 @@ const Login = () => {
                 <span>Google</span>
               </button>
               <button className="btn btn-outline-secondary d-flex align-items-center justify-content-center flex-grow-1 py-3">
-                <FaFacebook className="text-primary me-2" />
-                <span>Facebook</span>
+                
               </button>
             </motion.div>
 

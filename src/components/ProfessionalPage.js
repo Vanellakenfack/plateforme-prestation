@@ -116,6 +116,7 @@ const ProfessionalsPage = () => {
   return (
     <>
     <Header/>
+    
     <div className="all-professionals-page">
       {/* Hero Section */}
       <section className="hero-section">
