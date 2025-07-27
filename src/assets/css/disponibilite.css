@@ -1,0 +1,122 @@
+/* Styles spécifiques au calendrier de disponibilités */
+.availability-calendar-container {
+  /* Hérite déjà de .dashboard-card pour le style de carte */
+}
+
+.calendar-header {
+  margin-bottom: 25px;
+}
+
+.calendar-header h4 {
+  font-size: 1.5rem;
+  color: var(--text-dark);
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* 7 jours */
+  gap: 15px;
+}
+
+.calendar-day-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.calendar-day-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.day-header {
+  text-align: center;
+  margin-bottom: 15px;
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 10px;
+  width: 100%;
+}
+
+.day-header .day-name {
+  display: block;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--primary-color);
+  text-transform: capitalize; /* Pour les noms de jours */
+}
+
+.day-header .day-date {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--secondary-color);
+}
+
+.day-slots {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.slot-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.slot-item.available {
+  background-color: #e6ffed; /* Vert clair */
+  color: #28a745; /* Vert foncé */
+  border: 1px solid #28a745;
+}
+
+.slot-item.unavailable {
+  background-color: #ffe6e6; /* Rouge clair */
+  color: #dc3545; /* Rouge foncé */
+  border: 1px solid #dc3545;
+}
+
+.slot-item svg {
+  font-size: 1.1rem;
+}
+
+.slot-item:hover {
+  filter: brightness(0.95); /* Assombrir légèrement au survol */
+}
+
+/* Animation de chargement */
+.spin-animation {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive adjustments for calendar */
+@media (max-width: 768px) {
+  .calendar-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+  .calendar-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .calendar-header h4 {
+    text-align: center;
+    font-size: 1.3rem;
+  }
+}

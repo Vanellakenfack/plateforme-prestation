@@ -5,12 +5,14 @@ import {
   FiUser, FiSettings, FiLogOut, FiMenu, FiBriefcase,
   FiUsers, FiFileText, FiPieChart
 } from 'react-icons/fi';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function OwnerSidebar() {
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
     const location = useLocation();
+    const navigate = useNavigate();
 
     // Détection de la taille de l'écran
     useEffect(() => {
@@ -31,18 +33,27 @@ function OwnerSidebar() {
     // Configuration des éléments de menu
     const menuItems = [
         { path: '/dashboard', icon: <FiHome />, label: 'Tableau de bord' },
-        { path: '/services', icon: <FiBriefcase />, label: 'Mes Services' },
+        { path: '/service', icon: <FiBriefcase />, label: 'Mes Services' },
         { path: '/bookings', icon: <FiCalendar />, label: 'Réservations' },
         { path: '/clients', icon: <FiUsers />, label: 'Clients' },
         { path: '/message', icon: <FiMessageSquare />, label: 'Messages', badge: 3 },
-        { path: '/invoices', icon: <FiFileText />, label: 'Factures' },
-        { path: '/reports', icon: <FiPieChart />, label: 'Rapports' },
-        { path: '/earnings', icon: <FiDollarSign />, label: 'Revenus' },
+        { path: '/disponibilite', icon: <FiPieChart />, label: 'disponibilites' },
         { path: '/settings', icon: <FiSettings />, label: 'Paramètres' }
     ];
 
     const toggleSidebar = () => {
         setSidebarOpen(!sidebarOpen);
+    };
+
+    // Gestion de la déconnexion
+    const handleLogout = async () => {
+        try {
+            await axios.post('/api/logout');
+        } catch (e) {
+            // ignore l'erreur
+        }
+        localStorage.removeItem('token');
+        navigate('/login');
     };
 
     return (
@@ -107,7 +118,10 @@ function OwnerSidebar() {
                             {sidebarOpen && <span className="ms-2">Mon Profil</span>}
                         </NavLink>
 
-                        <button className="nav-link d-flex align-items-center rounded text-danger mt-2">
+                        <button
+                            className="nav-link d-flex align-items-center rounded text-danger mt-2"
+                            onClick={handleLogout}
+                        >
                             <FiLogOut className="icon-wrapper" />
                             {sidebarOpen && <span className="ms-2">Déconnexion</span>}
                         </button>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios'; // Ajoute axios
 import OwnerSidebar from './OwnerSidebar';
 import { 
   FiHome, FiDollarSign, FiCalendar, FiMessageSquare, 
@@ -10,25 +11,7 @@ const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
-
-  // Détection de la taille de l'écran
-  useEffect(() => {
-    const handleResize = () => {
-      const mobile = window.innerWidth < 992;
-      setIsMobile(mobile);
-      if (mobile) {
-        setSidebarOpen(false);
-      } else {
-        setSidebarOpen(true);
-      }
-    };
-
-    handleResize(); // Initial check
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Données simulées
+  const [user, setUser] = useState(null); // Ajoute ce state
   const stats = {
     revenue: 2450,
     bookings: 18,
@@ -47,11 +30,29 @@ const Dashboard = () => {
     { id: 1, client: "Jean Dupont", service: "Jardinage", requested: "12/06/2023", budget: "200-300€" },
     { id: 2, client: "Lucie Bernard", service: "Menuiserie", requested: "13/06/2023", budget: "150-250€" }
   ];
-
-  const recentReviews = [
+   const recentReviews = [
     { id: 1, client: "Marie Durand", rating: 5, comment: "Excellent travail, très professionnel !", date: "10/06/2023" },
     { id: 2, client: "Pierre Martin", rating: 4, comment: "Bon service mais un peu en retard", date: "08/06/2023" }
   ];
+  // Récupération des infos utilisateur connecté
+  useEffect(() => {
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      axios.get('http://localhost:8000/api/user', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json'
+        }
+      })
+      .then(res => setUser(res.data))
+      .catch(err => {
+        setUser(null);
+        // Optionnel : redirige vers login si erreur 401
+      });
+    }
+  }, []);
+
+  // ...détection mobile, stats, bookings, etc. inchangés...
 
   const renderStars = (rating) => {
     return [...Array(5)].map((_, i) => (
@@ -115,19 +116,40 @@ const Dashboard = () => {
               <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">2</span>
             </div>
             <div className="d-flex align-items-center">
-              <img 
-                src="https://randomuser.me/api/portraits/men/42.jpg" 
-                alt="Profile" 
-                className="rounded-circle me-2"
-                style={{width: '32px', height: '32px', objectFit: 'cover'}}
-              />
-              <span className="fw-medium d-none d-sm-inline">Jean D.</span>
+              {/* Affiche la photo et le nom de l'utilisateur connecté */}
+              {user ? (
+                <>
+                  <img 
+                    src={user.avatar || "https://randomuser.me/api/portraits/men/42.jpg"} 
+                    alt="Profile" 
+                    className="rounded-circle me-2"
+                    style={{width: '32px', height: '32px', objectFit: 'cover'}}
+                  />
+                  <span className="fw-medium d-none d-sm-inline"> {user && (
+          <div className="dashboard-user-info mb-4">
+            <strong></strong> {user.name} <br />
+            {/* Ajoute d'autres champs selon ta structure utilisateur */}
+          </div>
+        )}</span>
+                </>
+              ) : (
+                <>
+                  <img 
+                    src="https://randomuser.me/api/portraits/men/42.jpg" 
+                    alt="Profile" 
+                    className="rounded-circle me-2"
+                    style={{width: '32px', height: '32px', objectFit: 'cover'}}
+                  />
+                  <span className="fw-medium d-none d-sm-inline">  </span>
+                </>
+              )}
             </div>
           </div>
         </header>
 
+
         {/* Dashboard Content */}
-        <main className="dashboard-main">
+             <main className="dashboard-main">
           {activeTab === 'overview' && (
             <>
               {/* Stats Cards */}
@@ -178,92 +200,10 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              {/* Upcoming Bookings */}
-              <div className="dashboard-card">
-                <div className="card-header">
-                  <h5>Réservations à venir</h5>
-                  <button className="btn-link">Voir tout</button>
-                </div>
-                <div className="card-body">
-                  <div className="booking-list">
-                    {upcomingBookings.map(booking => (
-                      <div key={booking.id} className="booking-item">
-                        <div className="booking-info">
-                          <h6>{booking.service}</h6>
-                          <small>{booking.client}</small>
-                        </div>
-                        <span className="booking-price">
-                          {booking.price}€
-                        </span>
-                        <div className="booking-time">
-                          <FiClock />
-                          {booking.date} • {booking.time}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+             
 
               {/* Quotes and Reviews */}
-              <div className="row g-4">
-                <div className="col-lg-6">
-                  <div className="dashboard-card h-100">
-                    <div className="card-header">
-                      <h5>Demandes de devis</h5>
-                      <button className="btn-link">Voir tout</button>
-                    </div>
-                    <div className="card-body">
-                      <div className="quote-list">
-                        {pendingQuotes.map(quote => (
-                          <div key={quote.id} className="quote-item">
-                            <div className="quote-info">
-                              <h6>{quote.service}</h6>
-                              <small>{quote.client}</small>
-                            </div>
-                            <span className="quote-budget">
-                              {quote.budget}
-                            </span>
-                            <div className="quote-actions">
-                              <button className="btn-primary">
-                                Accepter
-                              </button>
-                              <button className="btn-outline">
-                                Voir détails
-                              </button>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-lg-6">
-                  <div className="dashboard-card h-100">
-                    <div className="card-header">
-                      <h5>Derniers avis</h5>
-                      <button className="btn-link">Voir tout</button>
-                    </div>
-                    <div className="card-body">
-                      <div className="review-list">
-                        {recentReviews.map(review => (
-                          <div key={review.id} className="review-item">
-                            <div className="review-header">
-                              <h6>{review.client}</h6>
-                              <div className="stars">
-                                {renderStars(review.rating)}
-                              </div>
-                            </div>
-                            <p className="review-comment">"{review.comment}"</p>
-                            <small className="review-date">{review.date}</small>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              
             </>
           )}
 
@@ -295,8 +235,6 @@ const Dashboard = () => {
           )}
         </main>
       </div>
-
-     
     </div>
   );
 };
